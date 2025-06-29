@@ -24,7 +24,7 @@ A competitive programming platform where users can solve coding challenges, subm
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/algoarena.git
+git clone https://github.com/Pawnios/Online_judge_Project
 cd algoarena
 
 # Set up virtual environment
