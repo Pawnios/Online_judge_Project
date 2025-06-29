@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <title>Login</title>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <!-- login form -->
+      <form
+        class="col-6 mx-auto card p-3 shadow-lg"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <h1 style="text-align: center">
+          <span style="color: blue">Login to site</span>
+        </h1>
+        {% csrf_token %}
+        <!-- csrf token for security  -->
+
+        <!-- login heading -->
+        <h3>Login</h3>
+        <hr />
+        <!-- display messages on success or failure -->
+        {% if messages %}
+        <div class="alert alert-primary" role="alert">
+          {% for message in messages %} {{ message }} {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- username input -->
+        <div class="form-group">
+          <label for="exampleInputEmail1">Username</label>
+          <input
+            type="text"
+            class="form-control"
+            name="username"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            placeholder="Enter Username"
+            required
+          />
+        </div>
+
+        <!-- password input -->
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input
+            type="password"
+            name="password"
+            class="form-control"
+            id="exampleInputPassword1"
+            placeholder="Password"
+            required
+          />
+        </div>
+
+        <!-- link to regi form -->
+        <p>Don't have an account? <a href="/register">Register</a></p>
+
+        <!-- submit button -->
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>
