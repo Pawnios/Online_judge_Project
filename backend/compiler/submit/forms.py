@@ -1,5 +1,5 @@
 from django import forms
-from submit.models import code_submission
+from compiler.submit.models import code_submission
 
 language_choices=[
     ("py","Python"),

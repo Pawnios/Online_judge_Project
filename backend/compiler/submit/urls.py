@@ -1,6 +1,6 @@
 from django.urls import path
-from submit.views import submit
+from compiler.submit.views import submit
 
 urlpatterns = [
-    path("", submit, name="submit"),
+    path("compiler", submit, name="submit"),
 ]

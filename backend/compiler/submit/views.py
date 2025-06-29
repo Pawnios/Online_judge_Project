@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from submit.forms import code_submission_form
+from compiler.submit.forms import code_submission_form
 from django.conf import settings
 import os
 import uuid
