@@ -16,8 +16,11 @@ A competitive programming platform where users can solve coding challenges, subm
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Python 3.8+
-- Node.js 16+
+- Python
+- HTML
+- CSS
+- Javascript
+- Django
 - PostgreSQL
 
 ### Installation
