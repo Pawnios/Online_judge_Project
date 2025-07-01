@@ -23,7 +23,7 @@ A competitive programming platform where users can solve coding challenges, subm
 - Django
 - PostgreSQL
 
-### Installation
+### Installation (to be corrected)
 
 ```bash
 # Clone the repository
