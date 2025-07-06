@@ -1,12 +1,123 @@
-<h1>Code Compiler</h1>
+<!-- <h1>Code Compiler</h1>
 <form method="post">
   {% csrf_token %} {{ form.as_p }}
   <button type="submit">Run Code</button>
 </form>
 <hr />
 
-<!-- <h2>Execution Result</h2>
+
+<h1>Execution Result</h1>
 <p><strong>Language:</strong> {{ submission.language }}</p>
 <p><strong>Code:</strong> <pre>{{ submission.code }}</pre></p>
 <p><strong>Input:</strong> <pre>{{ submission.input_data }}</pre></p>
-<p><strong>Output:</strong> <pre>{{ submission.output_data }}</pre></p>              -->
+<p><strong>Output:</strong> <pre>{{ submission.output_data }}</pre></p>
+<a href="">Run another code</a>   -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compiler</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #e6e6e6;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+        }
+        h1 {
+            color: #ff5e00;
+            text-shadow: 0 0 5px rgba(255, 94, 0, 0.7);
+        }
+        form {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border: 1px solid #ff5e00;
+            box-shadow: 0 0 10px rgba(255, 94, 0, 0.3);
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        pre {
+            background-color: #1a1a1a;
+            padding: 10px;
+            border-left: 3px solid #ff5e00;
+            color: #ffcc00;
+            overflow-x: auto;
+        }
+        button {
+            background-color: #ff5e00;
+            color: #0d0d0d;
+            border: none;
+            padding: 8px 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background-color: #ff3c00;
+            box-shadow: 0 0 8px rgba(255, 94, 0, 0.6);
+        }
+        a {
+            color: #ff5e00;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ff5e00, transparent);
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ff8c00;
+        }
+        input, textarea, select {
+            background-color: #2a2a2a;
+            color: #ffffff;
+            border: 1px solid #444;
+            padding: 8px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+   <a href="/"><h1>Code Compiler</h1></a> 
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-grid">
+            <div>
+                {{ form.code.label_tag }}
+                {{ form.code }}
+            </div>
+            <div>
+                {{ form.input_data.label_tag }}
+                {{ form.input_data }}
+            </div>
+        </div>
+        <div>
+            {{ form.language.label_tag }}
+            {{ form.language }}
+        </div>
+        <button type="submit">Run Code</button>
+    </form>
+    <hr />
+
+    {% if submission %}
+    <h1>Execution Result</h1>
+    <p><strong>Language:</strong> {{ submission.language }}</p>
+    <p><strong>Code:</strong> <pre>{{ submission.code }}</pre></p>
+    <p><strong>Input:</strong> <pre>{{ submission.input_data }}</pre></p>
+    <p><strong>Output:</strong> <pre>{{ submission.output_data }}</pre></p>
+    <a href="">Run another code</a>
+    {% endif %}
+</body>
+</html>

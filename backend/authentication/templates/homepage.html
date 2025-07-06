@@ -434,16 +434,25 @@
     <div class="scanlines"></div>
 
     <nav class="navbar">
-      <a href="/homepage" class="logo">
+      <a href="/" class="logo">
         <div class="logo-icon">></div>
         <span>ALGO_ARENA</span>
       </a>
       <div class="nav-links">
-        <a href="/homepage" target="_blank">Home</a>
-        <a href="/Problems" target="_blank">Problems</a>
-        <a href="/leaderboard" target="_blank">Leaderboard</a>
+        {% if request.user.is_authenticated %}
+        <!-- #built in property -->
+        <!-- Links for logged-in users -->
+        <a href="/" target="_blank">Home</a>
+        <a href="/problems" target="_blank">Problems</a>
+
         <a href="/compiler" target="_blank">Online Compiler</a>
-        <a href="/profile" target="_blank">Profile</a>
+
+        <a href="/logout">Logout</a>
+        {% else %}
+        <!-- Links for anonymous users -->
+        <a href="/register" target="_blank">Sign Up</a>
+        <a href="/login" target="_blank">Login</a>
+        {% endif %}
       </div>
     </nav>
 

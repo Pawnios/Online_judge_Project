@@ -1,0 +1,1 @@
+Enter the first number: Enter the second number: The sum of 1000.0 and 2.0 is: 1002.0

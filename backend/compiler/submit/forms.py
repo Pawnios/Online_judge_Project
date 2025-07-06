@@ -5,6 +5,8 @@ language_choices=[
     ("py","Python"),
     ("c","C"),
     ("cpp","C++"),
+    ("java","Java"),
+  
 ]
 
 class code_submission_form(forms.ModelForm):

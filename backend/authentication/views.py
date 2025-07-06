@@ -62,14 +62,14 @@ def login_user(request):
             
         login(request,user)
         messages.info(request,'Login Successful')
-        return redirect('/homepage/<user-id>') #to implement
+        return redirect('/') 
     
     template=loader.get_template('login.html')
     context={}
     return HttpResponse(template.render(context,request))
 
-
+@login_required
 def logout_user(request):
     logout(request)
-    messages.success(request,'Logout Successful')
-    return redirect('/login')
+    messages.info(request,'Logout Successful')
+    return redirect('/')

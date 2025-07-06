@@ -10,7 +10,7 @@ from pathlib import Path
 # Create your views here.
 
 def submit(request):
-
+    
     if request.method=="POST":
         form=code_submission_form(request.POST) #form created on backend (recommended frontend method)
         if form.is_valid():
@@ -23,14 +23,16 @@ def submit(request):
             )
             submission.output_data=output
             submission.save()
-            return render(request, "result.html", {"submission" :submission})
+            return render(request, "index.html", {"submission" :submission,
+                                                  "form":form, })
     else:
         #user just landed on this page
         form=code_submission_form()
-        context={
+        
+    return render(request,"index.html",context={
             "form":form,
-        }
-    return render(request,"index.html",context)
+            
+        })
 
 
 def run_code(language, code, input_data):
@@ -95,7 +97,50 @@ def run_code(language, code, input_data):
                     stdin=input_file,
                     stdout=output_file,
                     ) #python3 demo.py
+    elif language == "c":
+        executable_path = codes_dir / unique_str
+        compile_result = subprocess.run(
+            ["gcc", str(code_file_path), "-o", str(executable_path)],
+            capture_output=True
+        )
+        if compile_result.returncode == 0:
+            with open(input_file_path, "r") as input_file:
+                with open(output_file_path, "w") as output_file:
+                    subprocess.run(
+                        [str(executable_path)],
+                        stdin=input_file,
+                        stdout=output_file,
+                    )
+        else:
+            return compile_result.stderr.decode()
+        
+    elif language == "java":
+    # ALWAYS enforce class name Main
+        class_name = "Main"
+        java_code_file_path = codes_dir / f"{class_name}.java"
+        with open(java_code_file_path, "w") as f:
+            f.write(code)
 
+    # Compile
+        compile_result = subprocess.run(
+            ["javac", str(java_code_file_path)],
+            capture_output=True,
+            cwd=codes_dir
+            )
+        if compile_result.returncode != 0:
+            return compile_result.stderr.decode()
+
+    # Run
+        with open(input_file_path, "r") as infile, open(output_file_path, "w") as outfile:
+            subprocess.run(
+                ["java", "-cp", str(codes_dir), class_name],
+                stdin=infile,
+                stdout=outfile,
+                stderr=subprocess.STDOUT
+            )
+
+    else:
+        return f"Language '{language}' not supported."
 #reading output
     with open(output_file_path,"r") as output_file:
         output_data=output_file.read()

@@ -3,68 +3,158 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
     <title>Login</title>
+    <style>
+      :root {
+        --matrix-green: #ff6b00;
+        --dark-bg: #0d0208;
+        --darker-bg: #030303;
+        --terminal-text: #f0f0f0;
+        --glow: 0 0 10px var(--matrix-green);
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Courier New", monospace;
+        background-color: var(--dark-bg);
+        color: var(--matrix-green);
+        overflow-x: hidden;
+        line-height: 5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      /* Terminal-style card */
+      .login-card {
+        background-color: rgba(13, 2, 8, 0.9);
+        border: 1px solid var(--matrix-green);
+        border-radius: 5px;
+        padding: 2rem;
+        box-shadow: var(--glow);
+        width: 100%;
+        max-width: 500px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .login-card h1 {
+        color: var(--matrix-green);
+        text-align: center;
+        text-shadow: var(--glow);
+        letter-spacing: 2px;
+        margin-bottom: 1.5rem;
+      }
+
+      /* Input fields */
+      .form-group label {
+        color: var(--matrix-green);
+        font-weight: bold;
+      }
+
+      .form-control {
+        background-color: var(--darker-bg);
+        border: 1px solid var(--matrix-green);
+        color: var(--terminal-text);
+        font-family: "Courier New", monospace;
+      }
+
+      .form-control:focus {
+        background-color: var(--darker-bg);
+        color: var(--terminal-text);
+        border-color: var(--matrix-green);
+        box-shadow: var(--glow);
+      }
+
+      /* Button */
+      .btn-login {
+        background-color: transparent;
+        color: var(--matrix-green);
+        border: 1px solid var(--matrix-green);
+        font-weight: bold;
+        padding: 20px;
+        width: 100%;
+        transition: all 0.3s ease;
+        text-shadow: var(--glow);
+      }
+
+      .btn-login:hover {
+        background-color: var(--matrix-green);
+        color: var(--dark-bg);
+        box-shadow: var(--glow);
+      }
+
+      /* Link */
+      .register-link {
+        color: var(--matrix-green);
+        text-decoration: underline;
+        font-weight: bold;
+        text-shadow: var(--glow);
+      }
+
+      .register-link:hover {
+        text-decoration: underline;
+        color: var(--matrix-green);
+      }
+
+      /* Messages */
+      .alert-message {
+        background-color: rgba(255, 107, 0, 0.1);
+        border: 1px solid var(--matrix-green);
+        color: var(--terminal-text);
+        padding: 0.75rem;
+        border-radius: 3px;
+        margin-bottom: 1rem;
+      }
+    </style>
   </head>
   <body>
-    <div class="container mt-5">
-      <!-- login form -->
-      <form
-        class="col-6 mx-auto card p-3 shadow-lg"
-        method="post"
-        enctype="multipart/form-data"
-      >
-        <h1 style="text-align: center">
-          <span style="color: blue">Login to site</span>
-        </h1>
+    <div class="matrix-rain" id="matrixRain"></div>
+
+    <div class="login-card shadow-lg">
+      <h1>> LOGIN TO ALGO_ARENA</h1>
+
+      {% if messages %}
+      <div class="alert-message">
+        {% for message in messages %} > {{ message }} {% endfor %}
+      </div>
+      {% endif %}
+
+      <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <!-- csrf token for security  -->
 
-        <!-- login heading -->
-        <h3>Login</h3>
-        <hr />
-        <!-- display messages on success or failure -->
-        {% if messages %}
-        <div class="alert alert-primary" role="alert">
-          {% for message in messages %} {{ message }} {% endfor %}
-        </div>
-        {% endif %}
-
-        <!-- username input -->
         <div class="form-group">
-          <label for="exampleInputEmail1">Username</label>
+          <label for="username">> USERNAME</label>
           <input
             type="text"
             class="form-control"
             name="username"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-            placeholder="Enter Username"
+            id="username"
+            placeholder="Enter username"
             required
           />
         </div>
 
-        <!-- password input -->
         <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
+          <label for="password">> PASSWORD</label>
           <input
             type="password"
             name="password"
             class="form-control"
-            id="exampleInputPassword1"
-            placeholder="Password"
+            id="password"
+            placeholder="Enter Password"
             required
           />
         </div>
 
-        <!-- link to regi form -->
-        <p>Don't have an account? <a href="/register">Register</a></p>
+        <p>
+          > Don't have an account?
+          <a href="/register" class="register-link">Register</a>
+        </p>
 
-        <!-- submit button -->
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-login">> Login</button>
       </form>
     </div>
   </body>
