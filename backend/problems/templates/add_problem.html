@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add Problem</title>
+    <style>
+      body {
+        background-color: #0e0e0e;
+        color: #f96e00;
+        font-family: "Courier New", Courier, monospace;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 80px auto;
+        padding: 40px;
+        background-color: #1a1a1a;
+        border: 1px solid #f96e00;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(249, 110, 0, 0.3);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #f96e00;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      input[type="text"],
+      textarea,
+      select {
+        background-color: #0e0e0e;
+        border: 1px solid #f96e00;
+        color: #f96e00;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        font-family: inherit;
+      }
+
+      input[type="submit"],
+      .btn-secondary {
+        background-color: #f96e00;
+        border: none;
+        color: black;
+        padding: 10px;
+        cursor: pointer;
+        text-align: center;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      input[type="submit"]:hover,
+      .btn-secondary:hover {
+        background-color: #ff8c1a;
+      }
+
+      .btn-secondary {
+        background-color: transparent;
+        border: 1px solid #f96e00;
+        color: #f96e00;
+        margin-top: 10px;
+        text-align: center;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Add a New Problem</h2>
+      <form method="post">
+        {% csrf_token %} {{ form.as_p }}
+
+        <input type="submit" value="Submit" />
+        <a href="/problems" class="btn-secondary">Cancel</a>
+      </form>
+    </div>
+  </body>
+</html>

@@ -73,7 +73,7 @@ endblock %} {% block extra_css %}
                     font-size: 13px;
                     font-family: 'JetBrains Mono', monospace;
                   "
-                ><code>{% for tc in problem.test_cases.all %}{% if not tc.is_hidden %}{{ tc.expected_output }}{% endif %}{% empty %}No sample output available.{% endfor %}</code></pre>
+                ><code>{% for tc in problem.testcases.all %}{% if not tc.is_hidden %}{{ tc.expected_output }}{% endif %}{% empty %}No sample output available.{% endfor %}</code></pre>
               </div>
             </div>
           </div>

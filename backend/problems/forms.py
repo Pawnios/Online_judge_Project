@@ -1,12 +1,13 @@
 from django import forms
 from .models import Problem as problems, TestCase 
 
+
 class ProblemForm(forms.ModelForm):
     class Meta:
         model = problems
         fields = '__all__'
         labels = {
-            'name': 'Problem Name',
+            'title': 'Problem Name',
             'statement': 'Problem Statement',
             'difficulty': 'Difficulty Level',
             'TestCase': 'Test Cases',
@@ -16,6 +17,7 @@ class ProblemForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'placeholder': 'eg. Two Sum'}),
             'statement': forms.Textarea(attrs={'placeholder': 'eg. Given an array...'}),
             'difficulty': forms.Select(),
+            'tags': forms.SelectMultiple(attrs={'class': 'form-control'}),
         }
 
 class TestCaseForm(forms.ModelForm):
