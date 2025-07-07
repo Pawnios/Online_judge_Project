@@ -132,7 +132,7 @@
     <div class="problems-list">
       {% for problem in problems %}
       <div class="problem-card">
-        <a href="{% url 'problems:showProblem' problem.p_id %}">
+        <a href="{% url 'problems:problem_detail' problem.p_id %}">
           <div class="problem-title">{{problem.p_id}}. {{ problem.title }}</div>
         </a>
         <div class="problem-meta">

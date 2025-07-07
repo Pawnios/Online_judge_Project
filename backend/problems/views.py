@@ -1,34 +1,28 @@
-# from django.shortcuts import render, get_object_or_404
-# from .models import Problem
 
-# def problem_list(request):
-#     problems = Problem.objects.all().order_by('-created_at')
-#     return render(request, 'problem_list.html', {'problems': problems})
-
-# def problem_detail(request, pk):
-#     problem = get_object_or_404(Problem, pk=pk)
-#     return render(request, 'problem_detail.html', {'problem': problem, 'testcases': problem.testcases.all(), 'pk': pk, 'title': problem.title, 'description': problem.description, 'difficulty': problem.difficulty, 'created_at': problem.created_at, 'updated_at': problem.updated_at, })
 from django.shortcuts import redirect, render, get_object_or_404
 from .forms import ProblemForm, TestCaseForm
 from .models import Problem, TestCase
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.admin.views.decorators import staff_member_required as admin_required
 
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 @admin_required
 def add_problem(request):
-    form = ProblemForm()
     if request.method == 'POST':
         form = ProblemForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('/problems')
-    template_name = 'add_problem.html'
-    context = {'form': form}
-    return render(request, template_name, context)
+            problem = form.save()
+            messages.success(request, 'Problem added successfully!')
+            return redirect('problems')
+    else:
+        form = ProblemForm()
+    return render(request, 'add_problem.html', {'form': form})
+
 
 
 @admin_required
@@ -45,36 +39,30 @@ def updateView(request, f_oid):
     return render(request, template_name, context)
 
 @admin_required
-def addTestCaseView(request, f_oid):
-    obj = Problem.objects.get(oid=f_oid)
-    form = TestCaseForm()
-    if request.method == 'POST':
-        form = TestCaseForm(request.POST)
-        if form.is_valid():
-            test_case = form.save(commit=False)
-            test_case.problem = obj
+def add_test_case(request, problem_id):
+    try:
+        problem = Problem.objects.get(pk=problem_id)
+        if request.method == 'POST':
+            test_case = TestCase(
+                problem=problem,
+                input_data=request.POST.get('input'),
+                expected_output=request.POST.get('output')
+            )
             test_case.save()
-            messages.success(request, 'Test case added successfully!')
-            return redirect('problems')
-    template_name = 'problem_list.html'
-    context = {'form': form, 'obj': obj}
-    return render(request, template_name, context)
+            return redirect('problem_detail', problem_id=problem.id)
+    except Problem.DoesNotExist:
+        raise Http404("Problem does not exist")
 
-@admin_required
-def deleteView(request, f_oid):
-    obj = Problem.objects.get(oid=f_oid)
-    if request.method == 'POST':
-        obj.delete()
-        return redirect('problems')
-    template_name = 'problem_list.html'
-    context = {'obj': obj}
-    return render(request, template_name, context)
 
 def problem_list(request):
     problems = Problem.objects.all().prefetch_related('tags')
     return render(request, 'problem_list.html', {'problems': problems})
 
 @login_required
-def show_problem(request, p_id):
+def problem_detail(request, p_id):
     problem = get_object_or_404(Problem, p_id=p_id)
-    return render(request, 'problem_detail.html', {'problem': problem, 'testcases': problem.testcases.all(), 'p_id': p_id, 'title': problem.title, 'statement': problem.statement, 'difficulty': problem.difficulty, 'created_at': problem.created_at, 'updated_at': problem.updated_at, 'is_hidden': problem.testcases.filter(is_hidden=True).exists()})
+    test_cases = problem.testcases.filter(is_hidden=False)
+    return render(request, 'problems/problem_detail.html', {
+        'problem': problem,
+        'test_cases': test_cases
+    })

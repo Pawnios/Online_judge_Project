@@ -33,9 +33,14 @@
         flex-direction: column;
       }
 
+      .form-field {
+        margin-bottom: 20px;
+      }
+
       label {
         margin-bottom: 5px;
         font-weight: bold;
+        display: block;
       }
 
       input[type="text"],
@@ -45,11 +50,45 @@
         border: 1px solid #f96e00;
         color: #f96e00;
         padding: 10px;
-        margin-bottom: 20px;
+        width: 100%;
         border-radius: 4px;
         font-family: inherit;
+        box-sizing: border-box;
       }
 
+      /* Multiple select styles */
+      .tag-selector {
+        height: auto;
+        min-height: 120px;
+        width: 100%;
+        background-color: #0e0e0e;
+        border: 1px solid #f96e00;
+        color: #f96e00;
+        padding: 10px;
+        border-radius: 4px;
+      }
+
+      .tag-selector option {
+        padding: 8px;
+        margin: 2px 0;
+      }
+
+      .tag-selector option:checked {
+        background-color: #f96e00;
+        color: black;
+      }
+
+      small {
+        display: block;
+        margin-top: 5px;
+        font-size: 0.8em;
+        color: #888;
+      }
+      .color {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
       input[type="submit"],
       .btn-secondary {
         background-color: #f96e00;
@@ -62,20 +101,29 @@
         transition: background-color 0.3s ease;
         text-decoration: none;
         font-weight: bold;
+        margin-top: 10px;
+        width: 100%;
       }
 
       input[type="submit"]:hover,
       .btn-secondary:hover {
         background-color: #ff8c1a;
       }
+      .form-control {
+        background-color: #0e0e0e;
+        border: 1px solid #f96e00;
+        color: #f96e00;
+        padding: 10px;
+        width: 100%;
+        border-radius: 4px;
+        font-family: inherit;
+        box-sizing: border-box;
+      }
 
       .btn-secondary {
         background-color: transparent;
         border: 1px solid #f96e00;
         color: #f96e00;
-        margin-top: 10px;
-        text-align: center;
-        display: inline-block;
       }
     </style>
   </head>
@@ -83,7 +131,77 @@
     <div class="container">
       <h2>Add a New Problem</h2>
       <form method="post">
-        {% csrf_token %} {{ form.as_p }}
+        {% csrf_token %}
+        <div class="form-field">
+          <label for="id_p_id">Problem ID:</label>
+          <input
+            type="number"
+            name="p_id"
+            id="id_p_id"
+            required
+            class="form-control"
+            placeholder="eg. 1"
+            min="1"
+            step="1"
+          />
+        </div>
+        <!-- Title Field -->
+        <div class="form-field">
+          <label for="id_title">Problem Name:</label>
+          <input
+            type="text"
+            name="title"
+            id="id_title"
+            required
+            placeholder="eg. Two Sum"
+          />
+        </div>
+
+        <!-- Statement Field -->
+        <div class="form-field">
+          <label for="id_statement">Problem Statement:</label>
+          <textarea
+            name="statement"
+            id="id_statement"
+            rows="6"
+            required
+            placeholder="eg. Given an array..."
+          ></textarea>
+        </div>
+
+        <!-- Difficulty Field -->
+        <div class="form-field">
+          <label for="id_difficulty">Difficulty Level:</label>
+          <select name="difficulty" id="id_difficulty" required>
+            <option value="" selected disabled>Select difficulty</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+        </div>
+
+        <!-- Test Cases Field -->
+        <div class="form-field">
+          <label for="id_test_case">Test Cases:</label>
+          <textarea
+            name="test_case"
+            id="id_test_case"
+            rows="4"
+            required
+            placeholder="Enter test cases in JSON format"
+          ></textarea>
+        </div>
+
+        <!-- Tags Field -->
+        <div class="form-field">
+          <label for="id_tags">Problem Tags:</label>
+          <select name="tags" id="id_tags" class="tag-selector" multiple>
+            {% for tag in form.tags.field.queryset %}
+            <option value="{{ tag.id }}">{{ tag.name }}</option>
+            {% endfor %}
+          </select>
+          <small>Hold Ctrl/Cmd to select multiple tags</small>
+        </div>
 
         <input type="submit" value="Submit" />
         <a href="/problems" class="btn-secondary">Cancel</a>

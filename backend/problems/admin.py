@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Problem, TestCase
+from .models import Problem, TestCase,Tag
 # from submissions.models import Submission
 
 # Register your models here.
@@ -20,5 +20,7 @@ class TestCaseAdmin(admin.ModelAdmin):
     list_display = ('problem','is_hidden')
     list_filter = ('problem','is_hidden')
     search_fields = ('problem__title','input_data','expected_output')
+
+admin.site.register(Tag)                            
 
     

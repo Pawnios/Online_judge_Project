@@ -1,24 +1,57 @@
 from django import forms
-from .models import Problem as problems, TestCase 
-
+from .models import Problem, Tag, TestCase  # Make sure to import your models
 
 class ProblemForm(forms.ModelForm):
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        widget=forms.SelectMultiple(attrs={
+            'class': 'tag-selector',
+            'multiple': 'multiple'
+        }),
+        required=False
+    )
+    
     class Meta:
-        model = problems
+        model = Problem  
         fields = '__all__'
         labels = {
-            'title': 'Problem Name',
-            'statement': 'Problem Statement',
-            'difficulty': 'Difficulty Level',
-            'TestCase': 'Test Cases',
-        }
-
+    'title': 'Problem Name',
+    'statement': 'Problem Statement',
+    'difficulty': 'Difficulty Level',
+    'TestCase': 'Test Cases',
+    'tags': 'Problem Tags',  
+}
         widgets = {
-            'name': forms.TextInput(attrs={'placeholder': 'eg. Two Sum'}),
+            'title': forms.TextInput(attrs={'placeholder': 'eg. Two Sum'}),  # Changed from 'name' to 'title'
             'statement': forms.Textarea(attrs={'placeholder': 'eg. Given an array...'}),
             'difficulty': forms.Select(),
-            'tags': forms.SelectMultiple(attrs={'class': 'form-control'}),
         }
+
+# class ProblemForm(forms.ModelForm):
+#     class Meta:
+#         model = Problem
+#         fields = '__all__'
+#         labels = {
+#             'title': 'Problem Name',
+#             'statement': 'Problem Statement',
+#             'difficulty': 'Difficulty Level',
+#             'TestCase': 'Test Cases',
+#         }
+#         tags = forms.ModelMultipleChoiceField(
+#         queryset=Tag.objects.all(),
+#          widget=forms.SelectMultiple(attrs={
+#             'class': 'tag-selector',
+#             'multiple': 'multiple'
+#         }),
+#         required=False
+#     )
+
+#         widgets = {
+#             'name': forms.TextInput(attrs={'placeholder': 'eg. Two Sum'}),
+#             'statement': forms.Textarea(attrs={'placeholder': 'eg. Given an array...'}),
+#             'difficulty': forms.Select(),
+            
+#         }
 
 class TestCaseForm(forms.ModelForm):
     class Meta:
