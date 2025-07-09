@@ -1,4 +1,4 @@
-# 🏟️ AlgoArena - Online Coding Judge
+# <> AlgoArena - Online Coding Judge
 
 A competitive programming platform where users can solve coding challenges, submit solutions, and get real-time feedback. Built with Django backend and modern frontend (HTML/CSS/JavaScript).
 
