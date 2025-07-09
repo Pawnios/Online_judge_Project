@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ problem.title }}</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #0d0208;
+        color: #ff6b00;
+        font-family: "Courier New", monospace;
+      }
+      .problem-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: "Courier New", monospace;
+        color: #e0e0e0;
+        background-color: #121212;
+      }
+
+      /* Problem Header */
+      .problem-header {
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #ff6b00;
+      }
+
+      .problem-header h1 {
+        margin: 0;
+        font-size: 28px;
+        color: #ff6b00;
+        text-shadow: 0 0 5px rgba(255, 107, 0, 0.3);
+      }
+
+      .difficulty {
+        font-size: 14px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        margin-left: 10px;
+        font-weight: bold;
+        background-color: #121212;
+        border: 1px solid;
+      }
+
+      .difficulty.easy {
+        border-color: #00ff88;
+        color: #00ff88;
+        box-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
+      }
+
+      .difficulty.medium {
+        border-color: #ffcc00;
+        color: #ffcc00;
+        box-shadow: 0 0 8px rgba(255, 204, 0, 0.3);
+      }
+
+      .difficulty.hard {
+        border-color: #ff2a6d;
+        color: #ff2a6d;
+        box-shadow: 0 0 8px rgba(255, 42, 109, 0.3);
+      }
+
+      .problem-meta {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #b0b0b0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+
+      .tag {
+        background-color: #252525;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        color: #ff6b00;
+        border: 1px solid #ff6b00;
+      }
+
+      /* Problem Content */
+      .problem-section {
+        margin-bottom: 30px;
+      }
+
+      .problem-section h2 {
+        font-size: 22px;
+        margin-bottom: 15px;
+        color: #ff6b00;
+        border-bottom: 1px solid #ff6b00;
+        padding-bottom: 8px;
+      }
+
+      .problem-statement {
+        line-height: 1.6;
+        font-size: 16px;
+      }
+
+      /* Test Cases */
+      .test-case {
+        background-color: #1e1e1e;
+        border: 1px solid #ff6b00;
+        border-radius: 4px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 0 10px rgba(255, 107, 0, 0.1);
+      }
+
+      .input-output {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .input-output h4 {
+        margin-top: 0;
+        font-size: 16px;
+        color: #ff6b00;
+      }
+
+      pre {
+        background-color: #252525;
+        padding: 10px;
+        border-radius: 4px;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        margin: 0;
+        font-family: "Courier New", monospace;
+        font-size: 14px;
+        color: #e0e0e0;
+        border-left: 3px solid #ff6b00;
+      }
+
+      /* Compiler Section */
+      .compiler-section {
+        margin-top: 40px;
+        border-top: 1px solid #ff6b00;
+        padding-top: 20px;
+      }
+
+      .compiler-section h2 {
+        font-size: 22px;
+        margin-bottom: 15px;
+        color: #ff6b00;
+      }
+
+      .compiler-container {
+        border: 1px solid #ff6b00;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 0 0 15px rgba(255, 107, 0, 0.2);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .input-output {
+          grid-template-columns: 1fr;
+        }
+      }
+      /* Add these new styles */
+      .tab-container {
+        display: flex;
+        border-bottom: 1px solid #ff6b00;
+        margin-bottom: 20px;
+      }
+
+      .tab {
+        padding: 10px 20px;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-bottom: none;
+        margin-right: 5px;
+        background-color: #1a1a1a;
+        color: #b0b0b0;
+        font-family: "Courier New", monospace;
+        transition: all 0.3s ease;
+      }
+
+      .tab.active {
+        background-color: #121212;
+        color: #ff6b00;
+        border-color: #ff6b00;
+        border-radius: 5px 5px 0 0;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      /* AI Assistant Styles */
+      .ai-assistant {
+        background-color: #1a1a1a;
+        border: 1px solid #ff6b00;
+        border-radius: 5px;
+        padding: 20px;
+        margin-top: 20px;
+      }
+
+      .ai-input-group {
+        margin-bottom: 15px;
+      }
+
+      .ai-input-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #ff6b00;
+      }
+
+      .ai-input-group textarea {
+        width: 100%;
+        min-height: 100px;
+        background-color: #0d0208;
+        border: 1px solid #ff6b00;
+        color: #e0e0e0;
+        padding: 10px;
+        font-family: "Courier New", monospace;
+        resize: vertical;
+      }
+
+      .ai-submit-btn {
+        background-color: #ff6b00;
+        color: #0d0208;
+        border: none;
+        padding: 10px 20px;
+        font-family: "Courier New", monospace;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .ai-submit-btn:hover {
+        background-color: #ff8c1a;
+      }
+
+      .ai-response {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #0d0208;
+        border: 1px solid #00f0ff;
+        border-radius: 5px;
+        color: #e0e0e0;
+        white-space: pre-wrap;
+      }
+
+      .ai-loading {
+        color: #ffcc00;
+        text-align: center;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="problem-container">
+      <!-- Problem Information Section -->
+      <div class="problem-header">
+        <h1>
+          {{ problem.title }}
+          <span class="difficulty {{ problem.difficulty }}"
+            >{{ problem.difficulty|title }}</span
+          >
+        </h1>
+        <div class="problem-meta">
+          <span>Problem ID: {{ problem.p_id }}</span>
+          <div class="tags">
+            {% for tag in problem.tags.all %}
+            <span class="tag">{{ tag.name }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="problem-content">
+        <!-- Problem Statement -->
+        <div class="problem-section">
+          <h2>Problem Statement</h2>
+          <div class="problem-statement">
+            {{ problem.statement|linebreaks }}
+          </div>
+        </div>
+
+        <!-- Test Cases (Sample) -->
+        {% if test_cases %}
+        <div class="problem-section">
+          <h2>Sample Test Cases</h2>
+          {% for test_case in test_cases %}
+          <div class="test-case">
+            <div class="input-output">
+              <div>
+                <h4>Input:</h4>
+                <pre>{{ test_case.input_data }}</pre>
+              </div>
+              <div>
+                <h4>Expected Output:</h4>
+                <pre>{{ test_case.expected_output }}</pre>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Tab Container -->
+      <div class="tab-container">
+        <div class="tab active" onclick="switchTab('compiler')">
+          Code Editor
+        </div>
+        <div class="tab" onclick="switchTab('ai-assistant')">AI Assistant</div>
+      </div>
+
+      <!-- Compiler Tab -->
+      <div id="compiler-tab" class="tab-content active"></div>
+    </div>
+
+    <!-- AI Assistant Tab -->
+    <div id="ai-assistant-tab" class="tab-content">
+      <div class="ai-assistant">
+        <div class="ai-input-group">
+          <label for="ai-code-input">Your Code:</label>
+          <textarea
+            id="ai-code-input"
+            placeholder="Paste your code here..."
+          ></textarea>
+        </div>
+
+        <div class="ai-input-group">
+          <label for="ai-question">Your Question:</label>
+          <textarea
+            id="ai-question"
+            placeholder="Ask about the problem, your approach, or request hints..."
+          ></textarea>
+        </div>
+
+        <button class="ai-submit-btn" onclick="getAIHelp()">
+          Get AI Assistance
+        </button>
+
+        <div id="ai-response-container" style="display: none">
+          <h3>AI Response:</h3>
+          <div id="ai-response" class="ai-response"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Tab switching functionality
+      function switchTab(tabName) {
+        // Hide all tabs
+        document.querySelectorAll(".tab-content").forEach((tab) => {
+          tab.classList.remove("active");
+        });
+
+        // Deactivate all tab buttons
+        document.querySelectorAll(".tab").forEach((tab) => {
+          tab.classList.remove("active");
+        });
+
+        // Activate selected tab
+        document.getElementById(tabName + "-tab").classList.add("active");
+        event.currentTarget.classList.add("active");
+      }
+
+      //ai help
+    </script>
+  </body>
+</html>

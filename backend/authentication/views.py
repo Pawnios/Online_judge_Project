@@ -21,12 +21,14 @@ def register_user(request):
     if request.method =='POST':
         username=request.POST.get('username')
         password=request.POST.get('password')
+        first_name=request.POST.get('first_name')
+        last_name=request.POST.get('last_name')
 
         user=User.objects.filter(username=username) #find user objects similar to username
 
     #if user exists then dont create it
         if user.exists():
-            messages.info(request,'User with Username f`{username}` already exists!')
+            messages.info(request,'User with this Username already exists!')
             return redirect("/register")
         
     #create this user
@@ -73,3 +75,17 @@ def logout_user(request):
     logout(request)
     messages.info(request,'Logout Successful')
     return redirect('/')
+
+def profile_view(request):
+    if not request.user.is_authenticated:
+        messages.info(request, 'You need to be logged in to view your profile.')
+        return redirect('/login')   
+    user = request.user
+    context = {
+        'username': user.username,
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'date_joined': user.date_joined,
+    }
+    return render(request, 'profile.html', context) 

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile | AlgoArena</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <style>
+      body {
+        font-family: "Courier New", monospace;
+        background-color: #0d0208;
+        color: #ff6b00;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 1rem;
+        background-color: rgba(255, 107, 0, 0.1);
+        border: 1px solid #ff6b00;
+        border-radius: 5px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #ff6b00;
+      }
+
+      .profile-info {
+        margin-bottom: 1rem;
+      }
+
+      .profile-info label {
+        font-weight: bold;
+      }
+
+      .profile-info p {
+        margin: 0.5rem 0;
+      }
+
+      .logout-button {
+        display: block;
+        width: 100%;
+        padding: 0.5rem;
+        background-color: #ff6b00;
+        color: #0d0208;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+      }
+
+      .logout-button:hover {
+        background-color: darken(#ff6b00, 10%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>User Profile</h1>
+      <div class="profile-info">
+        <label for="username">Username:</label>
+        <p id="username">{{ username }}</p>
+      </div>
+      <div class="profile-info">
+        <label for="email">Email:</label>
+        <p id="email">{{ email }}</p>
+      </div>
+      <div class="profile-info">
+        <label for="first_name">First Name:</label>
+        <p id="first_name">{{ first_name }}</p>
+      </div>
+      <div class="profile-info">
+        <label for="last_name">Last Name:</label>
+        <p id="last_name">{{ last_name }}</p>
+      </div>
+      <div class="profile-info">
+        <label for="date_joined">Date Joined:</label>
+        <p id="date_joined">{{ date_joined }}</p>
+      </div>
+      <a href="/logout" class="logout-button">Logout</a>
+    </div>
+    <div class="streak-section">
+        <h2>Your Coding Streak</h2>
+        <div class="streak-map">
+            {% for week in streak_map %}
+            <div class="streak-week">
+                {% for day in week %}
+                <div class="streak-day {% if day %}active{% endif %}" title="{{ day|yesno:'Solved,Not solved' }}"></div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="streak-info">
+            Current streak: <strong>{{ current_streak|default:"0" }} days</strong> | 
+            Longest streak: <strong>{{ longest_streak|default:"0" }} days</strong>
+        </div>
+    </div>
+</div> 
+    <style>
+      .streak-section {
+        margin-top: 2rem;
+        text-align: center;
+      }
+
+      .streak-map {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .streak-week {
+        display: flex;
+      }
+
+      .streak-day {
+        width: 20px;
+        height: 20px;
+        margin: 2px;
+        background-color: #ccc;
+        border-radius: 3px;
+      }
+
+      .streak-day.active {
+        background-color: #ff6b00;
+      }
+
+      .streak-info {
+        margin-top: 1rem;
+        color: #ff6b00;
+      }
+    </style>
+  </body>
+</html>

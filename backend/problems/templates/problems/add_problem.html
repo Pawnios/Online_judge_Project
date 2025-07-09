@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add Problem</title>
+    <style>
+      body {
+        background-color: #0e0e0e;
+        color: #f96e00;
+        font-family: "Courier New", Courier, monospace;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 80px auto;
+        padding: 40px;
+        background-color: #1a1a1a;
+        border: 1px solid #f96e00;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(249, 110, 0, 0.3);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #f96e00;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-field {
+        margin-bottom: 20px;
+      }
+
+      label {
+        margin-bottom: 5px;
+        font-weight: bold;
+        display: block;
+      }
+
+      input[type="text"],
+      textarea,
+      select {
+        background-color: #0e0e0e;
+        border: 1px solid #f96e00;
+        color: #f96e00;
+        padding: 10px;
+        width: 100%;
+        border-radius: 4px;
+        font-family: inherit;
+        box-sizing: border-box;
+      }
+
+      /* Multiple select styles */
+      .tag-selector {
+        height: auto;
+        min-height: 120px;
+        width: 100%;
+        background-color: #0e0e0e;
+        border: 1px solid #f96e00;
+        color: #f96e00;
+        padding: 10px;
+        border-radius: 4px;
+      }
+
+      .tag-selector option {
+        padding: 8px;
+        margin: 2px 0;
+      }
+
+      .tag-selector option:checked {
+        background-color: #f96e00;
+        color: black;
+      }
+
+      small {
+        display: block;
+        margin-top: 5px;
+        font-size: 0.8em;
+        color: #888;
+      }
+      .color {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      input[type="submit"],
+      .btn-secondary {
+        background-color: #f96e00;
+        border: none;
+        color: black;
+        padding: 10px;
+        cursor: pointer;
+        text-align: center;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 10px;
+        width: 100%;
+      }
+
+      input[type="submit"]:hover,
+      .btn-secondary:hover {
+        background-color: #ff8c1a;
+      }
+      .form-control {
+        background-color: #0e0e0e;
+        border: 1px solid #f96e00;
+        color: #f96e00;
+        padding: 10px;
+        width: 100%;
+        border-radius: 4px;
+        font-family: inherit;
+        box-sizing: border-box;
+      }
+
+      .btn-secondary {
+        background-color: transparent;
+        border: 1px solid #f96e00;
+        color: #f96e00;
+      }
+      .test-cases-container {
+        margin-top: 20px;
+      }
+      
+      .test-case {
+        background-color: #0e0e0e;
+        border: 1px solid #f96e00;
+        border-radius: 4px;
+        padding: 15px;
+        margin-bottom: 15px;
+      }
+      
+      .test-case-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      
+      .remove-test-case {
+        color: #ff6b00;
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-weight: bold;
+      }
+      
+      .add-test-case {
+        background-color: #0e0e0e;
+        border: 1px dashed #f96e00;
+        color: #f96e00;
+        padding: 10px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-top: 10px;
+      }
+      
+      .add-test-case:hover {
+        background-color: #1a1a1a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Add a New Problem</h2>
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li style="color: #ff8c1a;">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      <form method="post">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+          <div style="color: red;">{{ form.non_field_errors }}</div>
+        {% endif %}
+        <div class="form-field">
+          <label for="id_p_id">Problem ID:</label>
+          <input
+            type="number"
+            name="p_id"
+            id="id_p_id"
+            required
+            class="form-control"
+            placeholder="eg. 1"
+            min="1"
+            step="1"
+            value="{{ form.p_id.value|default:'' }}"
+          />
+          {% if form.p_id.errors %}<div style="color: red;">{{ form.p_id.errors }}</div>{% endif %}
+        </div>
+        <div class="form-field">
+          <label for="id_title">Problem Name:</label>
+          <input
+            type="text"
+            name="title"
+            id="id_title"
+            required
+            placeholder="eg. Two Sum"
+            value="{{ form.title.value|default:'' }}"
+          />
+          {% if form.title.errors %}<div style="color: red;">{{ form.title.errors }}</div>{% endif %}
+        </div>
+        <div class="form-field">
+          <label for="id_statement">Problem Statement:</label>
+          <textarea
+            name="statement"
+            id="id_statement"
+            rows="6"
+            required
+            placeholder="eg. Given an array..."
+          >{{ form.statement.value|default:'' }}</textarea>
+          {% if form.statement.errors %}<div style="color: red;">{{ form.statement.errors }}</div>{% endif %}
+        </div>
+        <div class="form-field">
+          <label for="id_difficulty">Difficulty Level:</label>
+          <select name="difficulty" id="id_difficulty" required>
+            <option value="" disabled {% if not form.difficulty.value %}selected{% endif %}>Select difficulty</option>
+            <option value="easy" {% if form.difficulty.value == 'easy' %}selected{% endif %}>Easy</option>
+            <option value="medium" {% if form.difficulty.value == 'medium' %}selected{% endif %}>Medium</option>
+            <option value="hard" {% if form.difficulty.value == 'hard' %}selected{% endif %}>Hard</option>
+          </select>
+          {% if form.difficulty.errors %}<div style="color: red;">{{ form.difficulty.errors }}</div>{% endif %}
+        </div>
+
+        <!-- Test Cases Field -->
+        <div class="form-field">
+          <label>Test Cases:</label>
+          <div class="test-cases-container" id="test-cases-container">
+            <!-- Test cases will be added here dynamically -->
+          </div>
+          <div class="add-test-case" id="add-test-case">+ Add Test Case</div>
+          <input type="hidden" name="test_cases" id="test-cases-data">
+        </div>
+
+        <div class="form-field">
+          <label for="id_tags">Tags:</label>
+          {{ form.tags }}
+          {% if form.tags.errors %}<div style="color: red;">{{ form.tags.errors }}</div>{% endif %}
+          <small>Hold Ctrl/Cmd to select multiple tags</small>
+        </div>
+
+        <input type="submit" value="Submit" />
+        <a href="/problems" class="btn-secondary">Cancel</a>
+      </form>
+    </div>
+
+       
+
+        
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const testCasesContainer = document.getElementById('test-cases-container');
+        const addTestCaseBtn = document.getElementById('add-test-case');
+        const testCasesData = document.getElementById('test-cases-data');
+        let testCaseCount = 0;
+        
+        // Add test case
+        addTestCaseBtn.addEventListener('click', function() {
+          testCaseCount++;
+          const testCaseDiv = document.createElement('div');
+          testCaseDiv.className = 'test-case';
+          testCaseDiv.innerHTML = `
+            <div class="test-case-header">
+              <strong>Test Case #${testCaseCount}</strong>
+              <button type="button" class="remove-test-case">×</button>
+            </div>
+            <div class="form-field">
+              <label>Input:</label>
+              <textarea name="test_case_input_${testCaseCount}" rows="3" required></textarea>
+            </div>
+            <div class="form-field">
+              <label>Expected Output:</label>
+              <textarea name="test_case_output_${testCaseCount}" rows="3" required></textarea>
+            </div>
+          `;
+          testCasesContainer.appendChild(testCaseDiv);
+          
+          // Add remove functionality
+          testCaseDiv.querySelector('.remove-test-case').addEventListener('click', function() {
+            testCasesContainer.removeChild(testCaseDiv);
+            updateTestCasesData();
+          });
+          
+          // Update the test cases data whenever inputs change
+          const inputs = testCaseDiv.querySelectorAll('textarea');
+          inputs.forEach(input => {
+            input.addEventListener('input', updateTestCasesData);
+          });
+        });
+        
+        // Update the hidden field with test cases data
+        function updateTestCasesData() {
+          const testCases = [];
+          const testCaseElements = testCasesContainer.querySelectorAll('.test-case');
+          
+          testCaseElements.forEach((testCaseEl, index) => {
+            const input = testCaseEl.querySelector(`textarea[name^="test_case_input"]`).value;
+            const output = testCaseEl.querySelector(`textarea[name^="test_case_output"]`).value;
+            testCases.push({
+              input: input,
+              output: output
+            });
+          });
+          
+          testCasesData.value = JSON.stringify(testCases);
+        }
+        
+        // Handle form submission
+        document.getElementById('problem-form').addEventListener('submit', function(e) {
+          updateTestCasesData();
+          if (testCasesContainer.children.length === 0) {
+            e.preventDefault();
+            alert('Please add at least one test case');
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
