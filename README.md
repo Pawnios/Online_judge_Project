@@ -2,7 +2,8 @@
 
 A competitive programming platform where users can solve coding challenges, submit solutions, and get real-time feedback. Built with Django backend and modern frontend (HTML/CSS/JavaScript).
 
-![AlgoArena Screenshot](https://via.placeholder.com/800x500.png?text=AlgoArena+Screenshot)
+
+<img width="1710" alt="Screenshot 2025-07-09 at 2 51 38 PM" src="https://github.com/user-attachments/assets/b8c96075-d90f-4bef-9c41-7fff2783e800" />
 
 ## ✨ Features
 
