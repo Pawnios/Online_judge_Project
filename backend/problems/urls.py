@@ -9,5 +9,7 @@ urlpatterns = [
     path('add/', views.add_problem, name='add_problem'),
     path('<int:p_id>/compiler/', submit, name='compiler'),
     path('<int:p_id>/', views.problem_detail, name='problem_detail'),
-    path('problems/<int:p_id>/ai-help/', views.ai_assist, name='ai_help'),
-]
+    path('submit/',views.submit,name='submit_question'),
+    path('history/<int:question_id>/', views.submission_history_view, name='submission_history'),
+
+]  

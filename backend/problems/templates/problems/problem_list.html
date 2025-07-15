@@ -12,6 +12,13 @@
         --card-bg: #111;
         --text-primary: #e0e0e0;
         --text-secondary: #888;
+        --matrix-green: #ff6b00;
+
+        --darker-bg: #030303;
+        --neon-purple: #bc13fe;
+        --neon-blue: #0464f4;
+        --terminal-text: #f0f0f0;
+        --glow: 0 0 10px var(--matrix-green);
       }
 
       body {
@@ -121,11 +128,122 @@
         text-decoration: none;
         color: inherit;
       }
+      /* Navbar */
+      .navbar {
+        background-color: rgba(13, 2, 8, 0.8);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--matrix-green);
+        box-shadow: var(--glow);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        backdrop-filter: blur(5px);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--matrix-green);
+        font-weight: bold;
+        font-size: 1.5rem;
+        text-decoration: none;
+        text-shadow: var(--glow);
+        letter-spacing: 2px;
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        border: 2px solid var(--matrix-green);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        color: var(--matrix-green);
+        text-decoration: none;
+        font-weight: bold;
+        padding: 0.5rem 1rem;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+        position: relative;
+        text-shadow: var(--glow);
+        letter-spacing: 1px;
+      }
+
+      .nav-links a:hover {
+        color: var(--dark-bg);
+        background-color: var(--matrix-green);
+        box-shadow: var(--glow);
+      }
+
+      .nav-links a::before {
+        content: ">";
+        position: absolute;
+        left: -15px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .nav-links a:hover::before {
+        opacity: 1;
+      } /* Responsive */
+      @media (max-width: 768px) {
+        .navbar {
+          flex-direction: column;
+          padding: 1rem;
+        }
+
+        .nav-links {
+          margin-top: 1rem;
+          gap: 1rem;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .hero {
+          padding: 2rem 1rem;
+        }
+      }
     </style>
   </head>
   <body>
+    <nav class="navbar">
+      <a href="/" class="logo">
+        <div class="logo-icon">></div>
+        <span>ALGO_ARENA</span>
+      </a>
+      <div class="nav-links">
+        {% if request.user.is_authenticated %}
+        <!-- #built in property -->
+        <!-- Links for logged-in users -->
+        <a href="/">Home</a>
+        <a href="/problems">Problems</a>
+        <a href="/problems/add">Add a Problem</a>
+        <a href="/compiler" target="_blank">Online Compiler</a>
+        <a href="/profile">Profile</a>
+        <a href="/logout">Logout</a>
+        {% else %}
+        <!-- Links for anonymous users -->
+        <a href="/register" target="_blank">Sign Up</a>
+        <a href="/login" target="_blank">Login</a>
+        {% endif %}
+      </div>
+    </nav>
     <div class="header">
-      <a href="/"><h1 class="navbar">Home</h1></a>
+      <br />
       <h1>CODING PROBLEMS</h1>
     </div>
 
@@ -147,7 +265,17 @@
           {% endfor %}
         </div>
       </div>
-      {% endfor %}
+      {% if problem.is_solved %}
+      <span
+        style="
+          color: #22c55e;
+          font-size: 22px;
+          margin-left: 8px;
+          padding-right: 200px;
+        "
+        >&#10004;</span
+      >
+      {% endif %} {% endfor %}
     </div>
   </body>
 </html>

@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import os
+import os, sys,datetime
+from dotenv import load_dotenv
+from decouple import config
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,12 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-_2y$s8*g6#pf8o^(-l2t@5njprxw!xp%xc%6=o8g_!$y=e4!(*'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-GEMINI_API_KEY = "AIzaSyCGaEYfKugRsfExwZ6a0cBxu9de8lpd1Wc" 
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
 # Application definition
 
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'authentication',
     'compiler.submit',
     'problems',
+    "executor",
    
 ]
 

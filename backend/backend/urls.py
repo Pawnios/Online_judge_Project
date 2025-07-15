@@ -22,6 +22,7 @@ urlpatterns = [
     path('',include('authentication.urls')),
     path('',include('compiler.submit.urls')),
     path('problems/', include('problems.urls')),
+    # path('executor/', include('executor.urls')),
 
 
 ]

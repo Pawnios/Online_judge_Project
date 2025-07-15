@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leaderboard</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 60%;
+        margin: auto;
+        font-family: Arial, sans-serif;
+      }
+      th,
+      td {
+        border: 1px solid #aaa;
+        padding: 10px;
+        text-align: center;
+      }
+      th {
+        background-color: hsl(24, 100%, 49%);
+      }
+      h2 {
+        text-align: center;
+      }
+      .back-link {
+        text-align: center;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>🏆 Leaderboard</h2>
+    <table>
+      <tr>
+        <th>Rank</th>
+        <th>Username</th>
+        <th>Problems Solved</th>
+      </tr>
+      {% for user in users %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.problems_solved }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <div class="back-link" style="margin-top: 20px">
+      <a
+        href="{% url 'dashboard' %}"
+        style="
+          color: white;
+          text-decoration: none;
+          font-size: 20px;
+          transition: color 0.3s;
+        "
+        onmousedown="this.style.color='#f97316';"
+        onmouseup="this.style.color='white';"
+      >
+        ← Back to Dashboard
+      </a>
+    </div>
+  </body>
+</html>

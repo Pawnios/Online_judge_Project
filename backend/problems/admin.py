@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Problem, TestCase,Tag
 # from submissions.models import Submission
 
-# Register your models here.
+
 
 @admin.register(Problem)
 class ProblemAdmin(admin.ModelAdmin):

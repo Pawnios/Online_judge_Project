@@ -69,3 +69,4 @@ class TestCaseForm(forms.ModelForm):
             # 'order': forms.NumberInput(),
             'is_hidden': forms.CheckboxInput(),
         }           
+

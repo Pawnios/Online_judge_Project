@@ -7,4 +7,5 @@ urlpatterns = [
     path('logout/',logout_user,name='logout_user'),
     path('',homepage ,name='homepage'),
     path('profile/', profile_view, name='profile_view'),
+    # path('leaderboard/', leaderboard_view, name='leaderboard'),
 ]

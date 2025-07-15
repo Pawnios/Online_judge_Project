@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ problem.title }}</title>
     <style>
+      :root {
+        --matrix-green: #ff6b00;
+        --dark-bg: #0d0208;
+        --darker-bg: #030303;
+        --neon-purple: #bc13fe;
+        --neon-blue: #0464f4;
+        --terminal-text: #f0f0f0;
+        --glow: 0 0 10px var(--matrix-green);
+      }
       body {
         margin: 0;
         padding: 0;
@@ -12,13 +21,26 @@
         color: #ff6b00;
         font-family: "Courier New", monospace;
       }
-      .problem-container {
-        max-width: 1200px;
+
+      /* Main container with two columns */
+      .main-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        max-width: 1400px;
         margin: 0 auto;
         padding: 20px;
-        font-family: "Courier New", monospace;
-        color: #e0e0e0;
-        background-color: #121212;
+      }
+
+      /* Problem Section (Left Column) */
+      .problem-column {
+        padding-right: 20px;
+        border-right: 1px solid #ff6b00;
+      }
+
+      /* Compiler Section (Right Column) */
+      .compiler-column {
+        padding-left: 20px;
       }
 
       /* Problem Header */
@@ -46,9 +68,9 @@
       }
 
       .difficulty.easy {
-        border-color: #00ff88;
-        color: #00ff88;
-        box-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
+        border-color: #00ff41;
+        color: #00ff41;
+        box-shadow: 0 0 8px rgba(0, 255, 65, 0.3);
       }
 
       .difficulty.medium {
@@ -103,6 +125,7 @@
       .problem-statement {
         line-height: 1.6;
         font-size: 16px;
+        color: #e0e0e0;
       }
 
       /* Test Cases */
@@ -142,9 +165,11 @@
 
       /* Compiler Section */
       .compiler-section {
-        margin-top: 40px;
-        border-top: 1px solid #ff6b00;
-        padding-top: 20px;
+        border: 1px solid #ff6b00;
+        border-radius: 4px;
+        padding: 20px;
+        height: calc(100vh - 100px);
+        box-shadow: 0 0 15px rgba(255, 107, 0, 0.2);
       }
 
       .compiler-section h2 {
@@ -153,40 +178,27 @@
         color: #ff6b00;
       }
 
-      .compiler-container {
-        border: 1px solid #ff6b00;
-        border-radius: 4px;
-        overflow: hidden;
-        box-shadow: 0 0 15px rgba(255, 107, 0, 0.2);
-      }
-
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        .input-output {
-          grid-template-columns: 1fr;
-        }
-      }
-      /* Add these new styles */
+      /* Tab System */
       .tab-container {
         display: flex;
         border-bottom: 1px solid #ff6b00;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
       }
 
       .tab {
-        padding: 10px 20px;
+        padding: 8px 16px;
         cursor: pointer;
+        background-color: #121212;
+        color: #b0b0b0;
         border: 1px solid transparent;
         border-bottom: none;
         margin-right: 5px;
-        background-color: #1a1a1a;
-        color: #b0b0b0;
         font-family: "Courier New", monospace;
         transition: all 0.3s ease;
       }
 
       .tab.active {
-        background-color: #121212;
+        background-color: #0d0208;
         color: #ff6b00;
         border-color: #ff6b00;
         border-radius: 5px 5px 0 0;
@@ -194,186 +206,309 @@
 
       .tab-content {
         display: none;
+        height: calc(100% - 60px);
       }
 
       .tab-content.active {
         display: block;
       }
 
-      /* AI Assistant Styles */
-      .ai-assistant {
-        background-color: #1a1a1a;
+      /* Editor Styling */
+      .editor-container {
+        background-color: #121212;
+        height: 100%;
         border: 1px solid #ff6b00;
-        border-radius: 5px;
-        padding: 20px;
-        margin-top: 20px;
       }
 
-      .ai-input-group {
-        margin-bottom: 15px;
+      /* Form Styling */
+      form {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
       }
 
-      .ai-input-group label {
-        display: block;
-        margin-bottom: 8px;
-        color: #ff6b00;
-      }
-
-      .ai-input-group textarea {
-        width: 100%;
-        min-height: 100px;
-        background-color: #0d0208;
+      select,
+      textarea {
+        background-color: #121212;
         border: 1px solid #ff6b00;
         color: #e0e0e0;
         padding: 10px;
+        margin-bottom: 15px;
         font-family: "Courier New", monospace;
-        resize: vertical;
       }
 
-      .ai-submit-btn {
+      textarea {
+        flex-grow: 1;
+        resize: none;
+      }
+
+      /* Button Styling */
+      button {
         background-color: #ff6b00;
         color: #0d0208;
         border: none;
-        padding: 10px 20px;
+        padding: 8px 16px;
         font-family: "Courier New", monospace;
         font-weight: bold;
         cursor: pointer;
         transition: background-color 0.3s;
+        margin-right: 10px;
+        margin-bottom: 10px;
       }
 
-      .ai-submit-btn:hover {
+      button:hover {
         background-color: #ff8c1a;
       }
 
-      .ai-response {
+      /* Results Styling */
+      .test-results {
         margin-top: 20px;
         padding: 15px;
-        background-color: #0d0208;
-        border: 1px solid #00f0ff;
-        border-radius: 5px;
-        color: #e0e0e0;
-        white-space: pre-wrap;
+        background-color: #1e1e1e;
+        border: 1px solid #ff6b00;
+        border-radius: 4px;
       }
 
-      .ai-loading {
-        color: #ffcc00;
-        text-align: center;
-        padding: 20px;
+      .test-results h3 {
+        margin-top: 0;
+        color: #ff6b00;
+      }
+
+      .test-case.passed {
+        border-color: #00ff41;
+      }
+
+      .test-case.failed {
+        border-color: #ff2a6d;
+      }
+
+      /* AI Feedback Styling */
+      .ai-feedback {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #1e1e1e;
+        border: 1px solid #00f0ff;
+        border-radius: 4px;
+        color: #e0e0e0;
+      }
+
+      .ai-feedback h3 {
+        margin-top: 0;
+        color: #00f0ff;
+      }
+
+      /* Navbar */
+      .navbar {
+        background-color: rgba(13, 2, 8, 0.8);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--matrix-green);
+        box-shadow: var(--glow);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        backdrop-filter: blur(5px);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--matrix-green);
+        font-weight: bold;
+        font-size: 1.5rem;
+        text-decoration: none;
+        text-shadow: var(--glow);
+        letter-spacing: 2px;
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        border: 2px solid var(--matrix-green);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        color: var(--matrix-green);
+        text-decoration: none;
+        font-weight: bold;
+        padding: 0.5rem 1rem;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+        position: relative;
+        text-shadow: var(--glow);
+        letter-spacing: 1px;
+      }
+
+      .nav-links a:hover {
+        color: var(--dark-bg);
+        background-color: var(--matrix-green);
+        box-shadow: var(--glow);
+      }
+
+      .nav-links a::before {
+        content: ">";
+        position: absolute;
+        left: -15px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .nav-links a:hover::before {
+        opacity: 1;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .main-container {
+          grid-template-columns: 1fr;
+        }
+        .problem-column {
+          padding-right: 0;
+          border-right: none;
+          border-bottom: 1px solid #ff6b00;
+          padding-bottom: 20px;
+        }
+        .compiler-column {
+          padding-left: 0;
+          padding-top: 20px;
+        }
+
+        .navbar {
+          flex-direction: column;
+          padding: 1rem;
+        }
+
+        .nav-links {
+          margin-top: 1rem;
+          gap: 1rem;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="problem-container">
-      <!-- Problem Information Section -->
-      <div class="problem-header">
-        <h1>
-          {{ problem.title }}
-          <span class="difficulty {{ problem.difficulty }}"
-            >{{ problem.difficulty|title }}</span
-          >
-        </h1>
-        <div class="problem-meta">
-          <span>Problem ID: {{ problem.p_id }}</span>
-          <div class="tags">
-            {% for tag in problem.tags.all %}
-            <span class="tag">{{ tag.name }}</span>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-
-      <div class="problem-content">
-        <!-- Problem Statement -->
-        <div class="problem-section">
-          <h2>Problem Statement</h2>
-          <div class="problem-statement">
-            {{ problem.statement|linebreaks }}
-          </div>
-        </div>
-
-        <!-- Test Cases (Sample) -->
-        {% if test_cases %}
-        <div class="problem-section">
-          <h2>Sample Test Cases</h2>
-          {% for test_case in test_cases %}
-          <div class="test-case">
-            <div class="input-output">
-              <div>
-                <h4>Input:</h4>
-                <pre>{{ test_case.input_data }}</pre>
-              </div>
-              <div>
-                <h4>Expected Output:</h4>
-                <pre>{{ test_case.expected_output }}</pre>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
+    <nav class="navbar">
+      <a href="/" class="logo">
+        <div class="logo-icon">></div>
+        <span>ALGO_ARENA</span>
+      </a>
+      <div class="nav-links">
+        {% if request.user.is_authenticated %}
+        <a href="/">Home</a>
+        <a href="/problems">Problems</a>
+        <a href="/problems/add">Add a Problem</a>
+        <a href="/compiler" target="_blank">Online Compiler</a>
+        <a href="/profile">Profile</a>
+        <a href="/logout">Logout</a>
+        {% else %}
+        <a href="/register" target="_blank">Sign Up</a>
+        <a href="/login" target="_blank">Login</a>
         {% endif %}
       </div>
+    </nav>
 
-      <!-- Tab Container -->
-      <div class="tab-container">
-        <div class="tab active" onclick="switchTab('compiler')">
-          Code Editor
+    <div class="main-container">
+      <!-- Problem Column -->
+      <div class="problem-column">
+        <div class="problem-header">
+          <h1>
+            {{ problem.title }}
+            <span class="difficulty {{ problem.difficulty }}">
+              {{ problem.difficulty|title }}
+            </span>
+          </h1>
+          <div class="problem-meta">
+            <span>Problem ID: {{ problem.p_id }}</span>
+            <div class="tags">
+              {% for tag in problem.tags.all %}
+              <span class="tag">{{ tag.name }}</span>
+              {% endfor %}
+            </div>
+          </div>
         </div>
-        <div class="tab" onclick="switchTab('ai-assistant')">AI Assistant</div>
+
+        <div class="problem-content">
+          <div class="problem-section">
+            <h2>Problem Statement</h2>
+            <div class="problem-statement">
+              {{ problem.statement|linebreaks }}
+            </div>
+          </div>
+
+          {% if test_results %}
+          <div class="problem-section">
+            <h2>Test Results</h2>
+            <div class="test-results">
+              <h3>
+                Results ({{ test_results.passed_testcases }}/{{
+                test_results.total_testcases }})
+              </h3>
+              {% for result in test_results.results %} 
+              {% if result.visible or request.user.is_staff %}
+              <div
+                class="test-case {% if result.passed %}passed{% else %}failed{% endif %}"
+              >
+                <div>Input: {{ result.input }}</div>
+                <div>Expected: {{ result.expected }}</div>
+                <div>Output: {{ result.output }}</div>
+              </div>
+              {% endif %} {% endfor %}
+            </div>
+          </div>
+          {% endif %} {% if ai_response %}
+          <div class="problem-section">
+            <div class="ai-feedback">
+              <h3>AI Feedback</h3>
+              <div>{{ ai_response|linebreaks }}</div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
       </div>
 
-      <!-- Compiler Tab -->
-      <div id="compiler-tab" class="tab-content active"></div>
-    </div>
+      <!-- Compiler Column -->
+      <div class="compiler-column">
+        <div class="compiler-section">
+          <form method="POST">
+            {% csrf_token %}
+            <select name="language">
+              <option value="python">Python</option>
+              <option value="java">Java</option>
+              <option value="c">C</option>
+              <option value="cpp">C++</option>
+              <!-- other languages -->
+            </select>
+            <textarea name="code" placeholder="Enter your code here...">
+{{ submission.code|default:"" }}</textarea
+            >
+            <textarea name="input_data" placeholder="Custom input (optional)">
+{{ submission.input_data|default:"" }}</textarea
+            >
 
-    <!-- AI Assistant Tab -->
-    <div id="ai-assistant-tab" class="tab-content">
-      <div class="ai-assistant">
-        <div class="ai-input-group">
-          <label for="ai-code-input">Your Code:</label>
-          <textarea
-            id="ai-code-input"
-            placeholder="Paste your code here..."
-          ></textarea>
-        </div>
-
-        <div class="ai-input-group">
-          <label for="ai-question">Your Question:</label>
-          <textarea
-            id="ai-question"
-            placeholder="Ask about the problem, your approach, or request hints..."
-          ></textarea>
-        </div>
-
-        <button class="ai-submit-btn" onclick="getAIHelp()">
-          Get AI Assistance
-        </button>
-
-        <div id="ai-response-container" style="display: none">
-          <h3>AI Response:</h3>
-          <div id="ai-response" class="ai-response"></div>
+            <div>
+              <button type="submit" name="action" value="run">Run Code</button>
+              <button type="submit" name="action" value="submit">Submit</button>
+              <button type="submit" name="action" value="ai_help">
+                AI Help
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-
-    <script>
-      // Tab switching functionality
-      function switchTab(tabName) {
-        // Hide all tabs
-        document.querySelectorAll(".tab-content").forEach((tab) => {
-          tab.classList.remove("active");
-        });
-
-        // Deactivate all tab buttons
-        document.querySelectorAll(".tab").forEach((tab) => {
-          tab.classList.remove("active");
-        });
-
-        // Activate selected tab
-        document.getElementById(tabName + "-tab").classList.add("active");
-        event.currentTarget.classList.add("active");
-      }
-
-      //ai help
-    </script>
   </body>
 </html>

@@ -89,3 +89,4 @@ def profile_view(request):
         'date_joined': user.date_joined,
     }
     return render(request, 'profile.html', context) 
+
