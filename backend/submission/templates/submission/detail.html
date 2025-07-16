@@ -4,21 +4,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Problem List</title>
+    <title>Submission #{{ submission.id }}</title>
     <style>
       :root {
         --neon-orange: #ff5e00;
         --dark-bg: #0a0a0a;
         --card-bg: #111;
         --text-primary: #e0e0e0;
-        --text-secondary: #888;
         --matrix-green: #ff6b00;
 
+        --matrix-green: #ff6b00;
         --darker-bg: #030303;
         --neon-purple: #bc13fe;
         --neon-blue: #0464f4;
         --terminal-text: #f0f0f0;
-        --glow: 0 0 10px var(--matrix-green);
+       --glow: 0 0 10px var(--matrix-green);
       }
 
       body {
@@ -27,106 +27,67 @@
         color: var(--text-primary);
         margin: 0;
         padding: 20px;
-        line-height: 1.4;
       }
 
-      .header {
-        margin-bottom: 30px;
-        border-bottom: 1px solid rgba(255, 94, 0, 0.2);
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h2 {
+        color: var(--neon-orange);
+        border-bottom: 1px solid rgba(255, 94, 0, 0.3);
         padding-bottom: 10px;
       }
 
-      h1 {
-        color: var(--neon-orange);
-        text-align: center;
-        margin: 0;
-        font-size: 1.8rem;
-        font-weight: normal;
-      }
-      .navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 20px;
-        background-color: var(--dark-bg);
-        border-bottom: 1px solid rgba(255, 94, 0, 0.2);
-      }
-      .problems-list {
-        display: grid;
-        gap: 12px;
-        max-width: 800px;
-        margin: 0 auto;
-      }
-
-      .problem-card {
+      .submission-info {
         background-color: var(--card-bg);
-        padding: 16px;
-        border-left: 3px solid var(--neon-orange);
-        transition: all 0.2s;
-        cursor: pointer;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-left: 3px solid var(--matrix-green);
       }
 
-      .problem-card:hover {
-        background-color: #181818;
-        border-left-color: #ff8c00;
+      .submission-info p {
+        margin: 8px 0;
       }
 
-      .problem-title {
-        padding: 10px;
-        color: var(--neon-orange);
-        text-decoration: none;
-        transition: all 0.2s;
-      }
-
-      .problem-title:hover {
-        background-color: rgba(255, 94, 0, 0.1);
-      }
-      .problem-meta {
-        display: flex;
-        gap: 12px;
-        font-size: 0.85rem;
-        color: var(--text-secondary);
-      }
-
-      .difficulty {
-        display: inline-block;
-        padding: 2px 8px;
-        border-radius: 3px;
-        font-size: 0.75rem;
-      }
-
-      .difficulty-easy {
-        background-color: rgba(0, 255, 0, 0.1);
+      .verdict-ac {
         color: #0f0;
       }
 
-      .difficulty-medium {
-        background-color: rgba(255, 165, 0, 0.1);
-        color: #ffa500;
-      }
-
-      .difficulty-hard {
-        background-color: rgba(255, 0, 0, 0.1);
+      .verdict-other {
         color: #f00;
       }
 
-      .tags {
-        display: flex;
-        gap: 6px;
-        flex-wrap: wrap;
-        margin-top: 8px;
+      pre {
+        background-color: var(--dark-bg);
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+        border: 1px solid rgba(255, 94, 0, 0.3);
       }
 
-      .tag {
-        font-size: 0.7rem;
-        padding: 2px 6px;
-        background-color: rgba(255, 94, 0, 0.1);
-        color: var(--neon-orange);
-        border-radius: 3px;
+      code {
+        color: #7bd88f; /* Python-like syntax color */
       }
-      a {
+
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: rgba(255, 94, 0, 0.2);
+        color: var(--neon-orange);
+        border: 1px solid var(--neon-orange);
+        border-radius: 3px;
         text-decoration: none;
-        color: inherit;
+        margin-top: 20px;
+        transition: all 0.3s ease;
+      }
+
+      .btn:hover {
+        background-color: var(--neon-orange);
+        color: var(--dark-bg);
+        box-shadow: 0 0 10px var(--neon-orange);
       }
       /* Navbar */
       .navbar {
@@ -199,8 +160,24 @@
 
       .nav-links a:hover::before {
         opacity: 1;
-      } /* Responsive */
+      }
+
+      /* Responsive Design */
       @media (max-width: 768px) {
+        .main-container {
+          grid-template-columns: 1fr;
+        }
+        .problem-column {
+          padding-right: 0;
+          border-right: none;
+          border-bottom: 1px solid #ff6b00;
+          padding-bottom: 20px;
+        }
+        .compiler-column {
+          padding-left: 0;
+          padding-top: 20px;
+        }
+
         .navbar {
           flex-direction: column;
           padding: 1rem;
@@ -212,23 +189,6 @@
           flex-wrap: wrap;
           justify-content: center;
         }
-
-        .hero {
-          padding: 2rem 1rem;
-        }
-      }
-      .problem-card.solved {
-        border-left: 3px solid #22c55e; /* Green border */
-      }
-
-      .problem-card.solved:hover {
-        border-left-color: #16a34a; /* Darker green on hover */
-      }
-
-      .solved-check {
-        color: #22c55e;
-        font-size: 22px;
-        margin-left: 8px;
       }
     </style>
   </head>
@@ -240,8 +200,6 @@
       </a>
       <div class="nav-links">
         {% if request.user.is_authenticated %}
-        <!-- #built in property -->
-        <!-- Links for logged-in users -->
         <a href="/">Home</a>
         <a href="/problems">Problems</a>
         <a href="/problems/add">Add a Problem</a>
@@ -249,40 +207,40 @@
         <a href="/profile">Profile</a>
         <a href="/logout">Logout</a>
         {% else %}
-        <!-- Links for anonymous users -->
         <a href="/register" target="_blank">Sign Up</a>
         <a href="/login" target="_blank">Login</a>
         {% endif %}
       </div>
     </nav>
-    <div class="header">
-      <br />
-      <h1>CODING PROBLEMS</h1>
-    </div>
+    <div class="container">
+      <h2>SUBMISSION #{{ submission.id }}</h2>
 
-    <div class="problems-list">
-      {% for problem in problems %}
-      <div class="problem-card {% if problem.is_solved %}solved{% endif %}">
-        <a href="{% url 'problems:problem_detail' problem.p_id %}">
-          <div class="problem-title">
-            {{problem.p_id}}. {{ problem.title }} {% if problem.is_solved %}
-            <span class="solved-check">&#10004;</span>
-            {% endif %}
-          </div>
-        </a>
-        <div class="problem-meta">
-          <span class="difficulty difficulty-{{ problem.difficulty }}">
-            {{ problem.difficulty }}
+      <div class="submission-info">
+        <p><strong>PROBLEM:</strong> {{ submission.problem.title }}</p>
+        <p><strong>LANGUAGE:</strong> {{ submission.get_language_display }}</p>
+        <p>
+          <strong>SUBMITTED AT:</strong> {{ submission.created_at|date:"Y-m-d H:i:s" }}
+        </p>
+        <p>
+          <strong>VERDICT:</strong>
+          <span
+            class="{% if submission.verdict == 'AC' %}verdict-ac{% else %}verdict-other{% endif %}"
+          >
+            {{ submission.get_verdict_display }}
           </span>
-          <span> Created at: {{ problem.created_at|date:"Y-m-d" }}</span>
-        </div>
-        <div class="tags">
-          {% for tag in problem.tags.all %}
-          <span class="tag">{{ tag.name }}</span>
-          {% endfor %}
-        </div>
+        </p>
+        <p><strong>SCORE:</strong> {{ submission.score }}%</p>
       </div>
-      {% endfor %}
+
+      <h3>CODE:</h3>
+      <pre><code>{{ submission.code }}</code></pre>
+
+      <a
+        href="{% url 'submission:submission_history' p_id=problem.p_id%}"
+        class="btn"
+      >
+        BACK TO HISTORY
+      </a>
     </div>
   </body>
 </html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Execution Result</title>
+    <style>
+      :root {
+        --neon-orange: #ff5e00;
+        --dark-bg: #0a0a0a;
+        --card-bg: #111;
+        --text-primary: #e0e0e0;
+        --matrix-green: #ff6b00;
+        --glow: 0 0 10px var(--matrix-green);
+        --darker-bg: #030303;
+        --neon-purple: #bc13fe;
+        --neon-blue: #0464f4;
+        --terminal-text: #f0f0f0;
+
+      
+      }
+
+      body {
+        font-family: "Courier New", monospace;
+        background-color: var(--dark-bg);
+        color: var(--text-primary);
+        margin: 0;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      h2,
+      h3 {
+        color: var(--neon-orange);
+      }
+
+      h2 {
+        border-bottom: 1px solid rgba(255, 94, 0, 0.3);
+        padding-bottom: 10px;
+      }
+
+      .test-case {
+        background-color: var(--card-bg);
+        padding: 15px;
+        margin-bottom: 20px;
+        border-left: 3px solid;
+      }
+
+      .passed {
+        border-left-color: #0f0;
+      }
+
+      .failed {
+        border-left-color: #f00;
+      }
+
+      h4 {
+        margin-top: 0;
+        color: var(--matrix-green);
+      }
+
+      h5 {
+        margin-bottom: 5px;
+        color: var(--neon-orange);
+      }
+
+      pre {
+        background-color: var(--dark-bg);
+        padding: 10px;
+        border-radius: 3px;
+        overflow-x: auto;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: rgba(255, 94, 0, 0.2);
+        color: var(--neon-orange);
+        border: 1px solid var(--neon-orange);
+        border-radius: 3px;
+        text-decoration: none;
+        margin-top: 20px;
+        transition: all 0.3s ease;
+      }
+
+      .btn:hover {
+        background-color: var(--neon-orange);
+        color: var(--dark-bg);
+        box-shadow: 0 0 10px var(--neon-orange);
+      }
+
+      .score-display {
+        font-size: 1.2rem;
+        margin: 15px 0;
+      }
+      /* Navbar */
+      .navbar {
+        background-color: rgba(13, 2, 8, 0.8);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--matrix-green);
+        box-shadow: var(--glow);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        backdrop-filter: blur(5px);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--matrix-green);
+        font-weight: bold;
+        font-size: 1.5rem;
+        text-decoration: none;
+        text-shadow: var(--glow);
+        letter-spacing: 2px;
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        border: 2px solid var(--matrix-green);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        color: var(--matrix-green);
+        text-decoration: none;
+        font-weight: bold;
+        padding: 0.5rem 1rem;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+        position: relative;
+        text-shadow: var(--glow);
+        letter-spacing: 1px;
+      }
+
+      .nav-links a:hover {
+        color: var(--dark-bg);
+        background-color: var(--matrix-green);
+        box-shadow: var(--glow);
+      }
+
+      .nav-links a::before {
+        content: ">";
+        position: absolute;
+        left: -15px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .nav-links a:hover::before {
+        opacity: 1;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .main-container {
+          grid-template-columns: 1fr;
+        }
+        .problem-column {
+          padding-right: 0;
+          border-right: none;
+          border-bottom: 1px solid #ff6b00;
+          padding-bottom: 20px;
+        }
+        .compiler-column {
+          padding-left: 0;
+          padding-top: 20px;
+        }
+
+        .navbar {
+          flex-direction: column;
+          padding: 1rem;
+        }
+
+        .nav-links {
+          margin-top: 1rem;
+          gap: 1rem;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="/" class="logo">
+        <div class="logo-icon">></div>
+        <span>ALGO_ARENA</span>
+      </a>
+      <div class="nav-links">
+        {% if request.user.is_authenticated %}
+        <a href="/">Home</a>
+        <a href="/problems">Problems</a>
+        <a href="/problems/add">Add a Problem</a>
+        <a href="/compiler" target="_blank">Online Compiler</a>
+        <a href="/profile">Profile</a>
+        <a href="/logout">Logout</a>
+        {% else %}
+        <a href="/register" target="_blank">Sign Up</a>
+        <a href="/login" target="_blank">Login</a>
+        {% endif %}
+      </div>
+    </nav>
+    <div class="container">
+      <h2>EXECUTION RESULT</h2>
+
+      {% if results %}
+      <div class="score-display">
+        TEST CASES: <strong>{{ passed }}/{{ total }}</strong> | SCORE:
+        <strong>{{ score }}%</strong>
+      </div>
+
+      {% for result in results %} 
+      {% if result.visible or request.user.is_staff%}
+      <div
+        class="test-case {% if result.passed %}passed{% else %}failed{% endif %}"
+      >
+        <h4>TEST CASE {{ forloop.counter }}</h4>
+        <div class="input">
+          <h5>INPUT:</h5>
+          <pre>{{ result.input }}</pre>
+        </div>
+        <div class="expected">
+          <h5>EXPECTED:</h5>
+          <pre>{{ result.expected }}</pre>
+        </div>
+        <div class="output">
+          <h5>OUTPUT:</h5>
+          <pre>{{ result.output }}</pre>
+        </div>
+      </div>
+      {% endif %} {% endfor %} {% else %}
+      <h3>OUTPUT:</h3>
+      <pre>{{ output }}</pre>
+      {% endif %}
+
+      <a
+        href="{% url 'problems:problem_detail' p_id=problem.p_id %}"
+        class="btn"
+      >
+        BACK TO PROBLEM
+      </a>
+    </div>
+  </body>
+</html>

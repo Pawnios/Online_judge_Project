@@ -42,8 +42,7 @@ INSTALLED_APPS = [
     'authentication',
     'compiler.submit',
     'problems',
-    "executor",
-   
+    'submission',
 ]
 
 MIDDLEWARE = [
