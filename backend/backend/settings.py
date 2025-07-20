@@ -85,8 +85,8 @@ DATABASES = {
         'NAME': 'algoarenadbe',
         'USER': 'pawni',
         'PASSWORD': 'pawni3435',
-        'HOST':'db',
-        # 'HOST': os.getenv('DB_HOST', 'localhost'),
+        # 'HOST':'db',
+        'HOST': os.getenv('DB_HOST', 'localhost'),
         'PORT': '5432',
     }
 }
