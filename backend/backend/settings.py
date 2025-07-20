@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-_2y$s8*g6#pf8o^(-l2t@5njprxw!xp%xc%6=o8g_!$y=e4!(*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'web', 'backend-web-1']
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
 # Application definition
@@ -85,7 +85,8 @@ DATABASES = {
         'NAME': 'algoarenadbe',
         'USER': 'pawni',
         'PASSWORD': 'pawni3435',
-        'HOST': 'localhost',
+        'HOST':'db',
+        # 'HOST': os.getenv('DB_HOST', 'localhost'),
         'PORT': '5432',
     }
 }
