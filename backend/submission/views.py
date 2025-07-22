@@ -210,6 +210,8 @@ def execute_code(language, code, input_data):
     return output
 
 
+
+
 @login_required
 def ai_helper(request, p_id):
     problem = get_object_or_404(Problem, p_id=p_id)
@@ -230,7 +232,7 @@ def ai_helper(request, p_id):
         try:
             # Configure Gemini AI
             genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
-            model = genai.GenerativeModel('gemini-pro')
+            model = genai.GenerativeModel('models/gemini-2.0-flash')
             
             # Structured prompt for better AI response
             prompt = f"""

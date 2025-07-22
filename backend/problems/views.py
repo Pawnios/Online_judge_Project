@@ -87,7 +87,6 @@ def problem_detail(request, p_id):
     })
 
 
-genai.configure(api_key=backend.settings.GEMINI_API_KEY)
-model= genai.GenerativeModel('models/gemini-2.0-flash')
+
 
  
