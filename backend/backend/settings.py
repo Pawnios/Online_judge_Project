@@ -27,7 +27,9 @@ SECRET_KEY = 'django-insecure-_2y$s8*g6#pf8o^(-l2t@5njprxw!xp%xc%6=o8g_!$y=e4!(*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'web', 'backend-web-1']
+# ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'web', 'backend-web-1']
+# ALLOWED_HOSTS=['*']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
 # Application definition
@@ -78,6 +80,17 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('POSTGRES_DB'),
+#         'USER': config('POSTGRES_USER'),
+#         'PASSWORD': config('POSTGRES_PASSWORD'),
+#         'HOST': config('POSTGRES_HOST'),
+#         'PORT': config('POSTGRES_PORT', default='5432'),
+#     }
+# }
 
 DATABASES = {
     'default': {

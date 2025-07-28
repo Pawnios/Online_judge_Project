@@ -27,11 +27,12 @@
 # volumes:
 #   postgres_data:
 
-version: '3.9'
+version: "3.9"
 
 services:
   db:
     image: postgres:13
+
     environment:
       POSTGRES_DB: algoarenadbe
       POSTGRES_USER: pawni
@@ -52,8 +53,10 @@ services:
       - db
     environment:
       DATABASE_URL: postgres://pawni:pawni3435@db:5432/algoarenadbe
+      POSTGRES_DB: algoarenadbe
+      POSTGRES_USER: pawni
+      POSTGRES_PASSWORD: pawni3435
       DB_HOST: db
       ALLOWED_HOSTS: 0.0.0.0,localhost,127.0.0.1,web,backend-web-1
-
 volumes:
   postgres_data:

@@ -251,9 +251,9 @@ def ai_helper(request, p_id):
             ```
             
             **Please provide:**
-            1. **Code Quality Analysis** (readability, style conventions)
-            2. **Correctness Check** (potential bugs, edge cases)
-            3. **Optimization Suggestions** (time/space complexity improvements)
+            1. Code Quality Analysis (readability, style conventions)
+            2. Correctness Check (potential bugs, edge cases)
+            3. Optimization Suggestions (time/space complexity improvements)
             4. **Alternative Approaches** (different algorithms or paradigms)
             5. **Final Verdict** (overall assessment)
             
@@ -300,3 +300,7 @@ def ai_helper(request, p_id):
 
     # If not POST request, redirect to problem
     return redirect('submission/ai_feedback.html', p_id=p_id)
+
+
+
+
