@@ -1,4 +1,4 @@
-# AlgoArena
+# <> AlgoArena 🏟️ 
 
 A modern, web-based platform for competitive programming and coding practice. **AlgoArena** provides a robust environment where users can tackle programming challenges, receive instant feedback on their solutions, and leverage an integrated AI assistant to understand complex problems.
 
