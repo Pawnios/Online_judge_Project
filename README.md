@@ -13,6 +13,7 @@ Demo Link: https://www.loom.com/share/9b7736fa6aa049daa38747ad0900cbd6?sid=8d410
 - **User System** - Profiles, submissions history, and achievements
 - **Leaderboard** - Track top performers
 - **Responsive Design** - Works on desktop and mobile
+- **Personalised AI helper** - Gemini API utilised to provide personalised feedback
 
 Upcoming Features: Integrating Discussion page and score based Leaderboard!
 
