@@ -29,4 +29,4 @@ ENV DJANGO_SETTINGS_MODULE=backend.settings
 ENV PYTHONUNBUFFERED=1
 
 # Use entrypoint script instead of direct command
-CMD ["./entrypoint.sh"]
+CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
