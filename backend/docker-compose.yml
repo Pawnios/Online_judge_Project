@@ -58,6 +58,6 @@ services:
       POSTGRES_PASSWORD: pawni3435
       DB_HOST: db
       ALLOWED_HOSTS: 0.0.0.0,localhost,127.0.0.1,web,backend-web-1
-      GEMINI_API_KEY: "AIzaSyC2V__bcrSgGT-lzh1MCTkWdHn_LG-eFX0"
+    
 volumes:
   postgres_data:
