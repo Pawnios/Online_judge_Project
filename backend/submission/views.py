@@ -231,7 +231,7 @@ def ai_helper(request, p_id):
 
         try:
             # Configure Gemini AI
-            genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
+            genai.configure(api_key=settings.GEMINI_API_KEY)
             model = genai.GenerativeModel('models/gemini-2.0-flash')
             
             # Structured prompt for better AI response
